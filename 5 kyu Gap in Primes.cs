@@ -4,7 +4,11 @@ class GapInPrimes
 
     public static bool is_prime(long n)
     {
-        for (long i = 2; i < n / 2; i++)
+        if (n == 2) return true;
+
+        if (n <= 1 || n % 2 == 0) return false;
+        int max = (int)Math.Floor(Math.Sqrt(n));
+        for (long i = 3; i <= max; i += 2)
         {
             if (n % i == 0)
                 return false;
@@ -14,25 +18,24 @@ class GapInPrimes
 
     public static long[] Gap(int g, long m, long n)
     {
-        int j = 0;
-        long[] t = new long[n + 2 - m];
-        long[] result = new long[2];
-        for (long i = m; i <= n; i++)
+        long last_prime = -1, current = m;
+
+        while (current <= n)
         {
-            if (is_prime(i))
+            if (is_prime(current))
             {
-                t[j] = i;
-                j++;
+                if (last_prime == -1)
+                {
+                    last_prime = current;
+                }
+                else
+                {
+                    if (current - last_prime == g) return new long[] { last_prime, current };
+                    else
+                        last_prime = current;
+                }
             }
-        }
-        for (int i = 0; i < t.Length; i++)
-        {
-            if (t[i + 1] - t[i] == Convert.ToInt64(g))
-            {
-                result[0] = t[i];
-                result[1] = t[i + 1];
-                return result;
-            }
+            ++current;
         }
         return null;
     }
