@@ -1,1 +1,1 @@
-# some-codewars-csharp-solutions
+# some-codewars-solutions
